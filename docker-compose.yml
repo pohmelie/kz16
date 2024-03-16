@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+
+  kz16:
+    build: .
+    volumes:
+    - ./overrides:/overrides:ro
+    - ./cstrike_downloads:/kz16/cstrike_downloads:ro
+    ports:
+    - 27015:27015/udp
+    depends_on:
+      - maps-web-host
+      - mysql
+    entrypoint: []
+    command: bash /overrides/start.sh
+
+  maps-web-host:
+    image: python:3.12-slim
+    volumes:
+    - ./cstrike_downloads:/cstrike_downloads:ro
+    working_dir: /cstrike_downloads
+    ports:
+    - 27014:27014/tcp
+    command: python -m http.server 27014
+
+  mysql:
+    image: mysql:8.0.32
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_USER: kz16
+      MYSQL_PASSWORD: kz16
+      MYSQL_DATABASE: kz16
+    command: --default-authentication-plugin=mysql_native_password
+    # ports:
+    # - 3306:3306

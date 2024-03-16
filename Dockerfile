@@ -75,7 +75,6 @@ RUN adduser --home /kz16 kz16
 COPY --chown=kz16:kz16 --from=builder /kz16 /kz16
 USER kz16
 WORKDIR /kz16
-COPY overrides/* /kz16
 # first segfault run
 RUN /kz16/hlds_run -game cstrike +map de_dust2 +maxplayers 32 -norestart || true
 ENTRYPOINT ["/kz16/hlds_run", "-game", "cstrike"]

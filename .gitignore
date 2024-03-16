@@ -1,2 +1,5 @@
-downloads
-kz16
+native/downloads
+native/kz16
+
+cstrike_downloads/*
+!cstrike_downloads/.placeholder

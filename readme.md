@@ -1,20 +1,21 @@
 # Counter-Strike 1.6 kz/kreedz/jump server
 
-## How to use it
-It can be used as a standalone server or as a docker container.
+Main goal of this project is to provide a simple way to run a Counter-Strike 1.6 server with kreedz mod **locally**.
 
-### Native
-1. Run `bash build.sh` to download, unpack and verify all necessary files.
-1. Run `bash start.sh` to start the server (first run will be failed, don't worry).
+## Prerequisites
+- `docker`
+- Map pack (for exmaple [this](https://kz-rush.ru/downloads.php?action=download&id=13))
 
-### Docker
-1. Run `docker build -t kz16 .` to build the image.
-1. Run `docker run --name kz16 -it --net host kz16` to start the server.
+## Quick start
+- Unpack map pack to `cstrike_downloads` directory. This should mimic `cstrike` directory, so the `maps` directory should be in `cstrike_downloads/maps` directory.
+- Edit `overrides/addons/amxmodx/configs/users.ini` to set admin users (this can be done at any time with restart server after).
+- `docker compose up kz16` to start the server. Or `docker compose up -d kz16` to start it in background.
+- Wait a little so the server establish connection to mysql database and start the game server.
 
-## Add maps
-It is pretty simple for native variant. Just unpack map pack to proper directory. For exmaple [this](https://kz-rush.ru/downloads.php?action=download&id=13) pack.
+## Under the hood
 
-## Technical details
+### HLDS server
+It is a Counter-Strike 1.6 server with some plugins:
 - [`steamcmd`](https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz)
 - `hlds`
 - [`ReGameDLL_CS`](https://github.com/s1lentq/ReGameDLL_CS)
@@ -24,5 +25,13 @@ It is pretty simple for native variant. Just unpack map pack to proper directory
 - [`amxxeasyhttp`](https://github.com/Next21Team/AmxxEasyHttp)
 - [`kreedz-amxx`](https://github.com/Theggv/Kreedz)
 
-## Caveats
-Some plugins related to database (sqlite, mysql) plugins are not worked, so they are disabled by `overrides` directory content.
+### Web server
+This need to allow fast client resouce downloads. It shares only `cstrike_downloads` directory, so your secrets are safe.
+
+### MySQL
+It is used to store server data like players, records, settings, etc.
+
+---
+
+## `native` directory
+Holds the simple routines without containerization for fast server testing.
