@@ -31,6 +31,6 @@ services:
       MYSQL_USER: kz16
       MYSQL_PASSWORD: kz16
       MYSQL_DATABASE: kz16
-    command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=mysql_native_password --performance-schema=0
     # ports:
     # - 3306:3306
